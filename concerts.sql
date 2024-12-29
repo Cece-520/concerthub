@@ -101,10 +101,10 @@ create table seatdescriptions
 (
     seat_id  integer not null
         constraint seatdescription_seats_seat_id_fk
-            references project2.seats,
+            references seats,
     label_id integer not null
         constraint seatdescription_seatlabels_label_id_fk
-            references project2.seatlabels,
+            references seatlabels,
     constraint seatdescription_pk
         primary key (seat_id, label_id)
 );
