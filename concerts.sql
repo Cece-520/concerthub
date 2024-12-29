@@ -24,12 +24,12 @@ create table venues
     venue_id      serial
         constraint venues_pk
             primary key,
-    name          varchar(100),
-    isindoor      boolean,
-    streetaddress varchar(100),
-    city          varchar(100),
-    state         varchar(100),
-    zipcode       integer,
+    name          varchar(100) not null,
+    isindoor      boolean not null,
+    streetaddress varchar(100) not null,
+    city          varchar(100) not null,
+    state         varchar(100) not null,
+    zipcode       integer not null,
     constraint venues_uk
         unique (streetaddress, city, state, zipcode)
 );
@@ -43,12 +43,12 @@ create table concerts
             primary key,
     title      varchar(100) not null,
     start      timestamp    not null,
-    tour_id    integer default nextval('project2.concerts_tour_id_seq'::regclass)
+    tour_id    integer default nextval('concerts_tour_id_seq'::regclass)
         constraint concerts_tours_tours_id_fk
-            references project2.tours,
+            references tours,
     venue_id   serial
         constraint concerts_venues_venue_id_fk
-            references project2.venues,
+            references venues,
     constraint concerts_uk
         unique (venue_id, start)
 );
@@ -60,10 +60,10 @@ create table sections
     section_id serial
         constraint sections_pk
             primary key,
-    title      varchar(100),
+    title      varchar(100) not null,
     venue_id   integer not null
         constraint sections_venues_venue_id_fk
-            references project2.venues
+            references venues
 );
 
 
@@ -89,10 +89,10 @@ create table seats
     maxticket  integer not null,
     section_id integer
         constraint seats_sections_section_id_fk
-            references project2.sections,
+            references sections,
     venue_id   integer
         constraint seats_venues_venue_id_fk
-            references project2.venues
+            references venues
 );
 
 
@@ -115,10 +115,10 @@ create table performerlists
 (
     artist_id  integer not null
         constraint performerlists_artists_artist_id_fk
-            references project2.artists,
+            references artists,
     concert_id integer not null
         constraint performerlists_concerts_concert_id_fk
-            references project2.concerts,
+            references concerts,
     "order"    integer,
     constraint performerlists_pk
         primary key (concert_id, artist_id)
@@ -150,13 +150,13 @@ create table tickets
             unique,
     seat_id    integer
         constraint tickets___fk2
-            references project2.seats,
+            references seats,
     concert_id integer
         constraint tickets_concerts_concert_id_fk
-            references project2.concerts,
+            references concerts,
     user_id    integer
         constraint tickets_fk3
-            references project2.users
+            references users
 );
 
 --/*Data for the table artists */
